@@ -74,7 +74,7 @@ def draw_panel(screen, coins):
 
 def dig():
     if event.type == py.KEYDOWN:
-        if event.key == py.K_SPACE:
+        if event.key == py.K_e:
             if(grid[player1.y//60][player1.x//60] == 3):
                 dig_sound.play()
                 player1.coins += 1
