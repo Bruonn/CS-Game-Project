@@ -12,6 +12,16 @@ grid = [[randint(0,6) for i in range(grid_c)]for j in range(grid_r)]
 grid[0][0] = 1
 grid[0][1] = 1 #right neighbour
 grid[1][0] = 1 #bottom neighbour
+grid[0][4] = 12
+grid[1][4] = 1
+'''
+create a loop which runs exactly n times
+go through each row randomly pick run another loop 3 times
+generate a randomnumber between 0-8
+check if the index generated doesnt already contain the vaue that you want
+if not then change the value otherwise restart the loop
+
+'''
 
 for g in grid:
     print(g)
@@ -25,7 +35,7 @@ panel = 150
 coins = 0
 hideobimg = py.image.load('goldenTree.png')
 hideobimg = py.transform.scale(hideobimg, (60,60))
-obimg = py.image.load('bushNew.png')
+obimg = py.image.load('backwall.jfif')
 obimg = py.transform.scale(obimg, (60,60))
 bgimg = py.image.load('carpet-yellow.jpg')
 bgimg = py.transform.scale(bgimg, (width, height))
@@ -40,6 +50,8 @@ breakimg = py.image.load('breakblank.png')
 breakimg = py.transform.scale(breakimg, (55,55))
 player1 = Player(5, 5, img)
 player2 = Player(5, 5, hidecoinimg)
+exitimg = py.image.load('door.png')
+exitimg = py.transform.scale(exitimg, (60,60))
 obstacleList = []
 for r in range(grid_r):
     for c in range(grid_c):
@@ -63,8 +75,10 @@ def draw_grid(grid:list):
             index += 1
         elif grid[row][col] == 3:
             screen.blit(coinimg, (col*cell_size, row*cell_size))
-        elif grid[row][col] == 6:
-            screen.blit(hideobimg,(col*cell_size, row*cell_size))
+        elif grid[row][col] == 12:
+            screen.blit(exitimg, (col*cell_size, row*cell_size))
+        # elif grid[row][col] == 6:
+        #     screen.blit(hideobimg,(col*cell_size, row*cell_size))
             #py.draw.rect(screen, "#000000", (row*cell_size, col*cell_size, cell_size, cell_size))
         col += 1 #then go to the next cell
         if col == grid_c:   #if you reach the last column
@@ -79,7 +93,7 @@ def draw_panel(screen, coins):
     screen.blit(textSurface, (width + 19, 38))
     screen.blit(coinTextimg,(width + 7, 32))
 
-def shake():
+def open():
     if event.type == py.KEYDOWN:
         if event.key == py.K_SPACE:
             if(grid[player1.y//60][player1.x//60] == 6):
@@ -108,7 +122,7 @@ while run:
         player1.move(screen, grid, event)
         
         pickup()
-        shake()
+        # shake()
     screen.blit(bgimg, (0,0))
     draw_panel(screen, coins)
     
@@ -118,7 +132,7 @@ while run:
     player2.movebad(screen, grid)
     draw_grid(grid)
     player1.draw(screen)
-    player2.draw(screen)
+    # player2.draw(screen)
     
     
     #r.center = (player1.x, player1.y)
