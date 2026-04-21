@@ -29,19 +29,35 @@ class Player:
         c = self.x//60
         if event.type == py.KEYDOWN:
         #keys = py.key.get_pressed() #this wil create a dictionary called keys
-            if event.key == py.K_a and c - 1 >= 0 and grid[r][c-1] != 0:
+            if event.key == py.K_a and c - 1 >= 0 and grid[r][c-1] != 0 and grid[r][c-1] !=2:
                 self.x -= 60
-            if event.key == py.K_d and c + 1 < len(grid[0]) and grid[r][c+1] != 0:
+            if event.key == py.K_d and c + 1 < len(grid[0]) and grid[r][c+1] != 0 and grid[r][c+1] !=2:
                 self.x += 60
-            if event.key == py.K_w and r - 1 >= 0 and grid[r-1][c] != 0:
+            if event.key == py.K_w and r - 1 >= 0 and grid[r-1][c] != 0 and grid[r-1][c] !=2:
                 self.y -= 60
-            if event.key == py.K_s and r + 1 < len(grid) and grid[r+1][c] != 0:
+            if event.key == py.K_s and r + 1 < len(grid) and grid[r+1][c] != 0 and grid[r+1][c] !=2:
                 self.y += 60
             # if(grid[self.y//60][self.x//60] == 3):
             #     self.coins += 1
             #     grid[self.y//60][self.x//60] = 2137 #change value after collect coin so no coin farming
             self.rect = (self.x, self.y, self.w, self.h)
 
+    def movebad(self, screen, grid):
+        # r = self.y//60
+        # c = self.x//60
+        # if c - 1 >= 0 and grid[r][c-1] != 0 and grid[r][c-1] !=2:
+        #     self.x -= 60
+        # if c + 1 < len(grid[0]) and grid[r][c+1] != 0 and grid[r][c+1] !=2:
+        #     self.x += 60
+        # if r - 1 >= 0 and grid[r-1][c] != 0 and grid[r-1][c] !=2:
+        #     self.y -= 60
+        # if r + 1 < len(grid) and grid[r+1][c] != 0 and grid[r+1][c] !=2:
+        #         self.y += 60
+        #self.rect = (self.x, self.y, self.w, self.h)
+        self.x += self.speedX
+        if self.x > 540 or self.x < 0:
+            self.speedX = - self.speedX
+            
     def collision(self, obstacle):
         if abs(self.x - obstacle.x) < self.w:
             if abs(self.y - obstacle.y) < self.y:
