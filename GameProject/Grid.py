@@ -10,10 +10,11 @@ grid = [[randint(0,6) for i in range(grid_c)]for j in range(grid_r)]
 
 #ensure starting area is always open
 grid[0][0] = 1
-grid[0][1] = 1 #right neighbour
-grid[1][0] = 1 #bottom neighbour
+grid[1][0] = 1 #right neighbour
+grid[0][1] = 1 #bottom neighbour
 grid[0][4] = 12
 grid[1][4] = 1
+grid[7][2] = 14
 '''
 create a loop which runs exactly n times
 go through each row randomly pick run another loop 3 times
@@ -27,12 +28,27 @@ for g in grid:
     print(g)
 
 
+counter = 0
+for i in grid:
+    for j in i:
+        if j == 3:
+            counter += 1
+
+keycount = 0
+for t in grid:
+    for n in t:
+        if n == 14:
+            keycount += 1
+
+
+
 
 cell_size = 60 #cell size in which the player will reside
 #width and height of the game layout depends on the grid and cell size
 width, height = cell_size * grid_c, cell_size * grid_r
 panel = 150
 coins = 0
+key = 0
 hideobimg = py.image.load('goldenTree.png')
 hideobimg = py.transform.scale(hideobimg, (60,60))
 obimg = py.image.load('backwall.jfif')
@@ -44,14 +60,16 @@ img = py.transform.scale(img, (50,50))
 coinimg = py.image.load('notZeldaRupee.png')
 coinTextimg = py.transform.scale(coinimg, (30,30))
 coinimg = py.transform.scale(coinimg, (55,55))
-hidecoinimg = py.image.load('notZeldaRupeeRed.png')
-hidecoinimg = py.transform.scale(hidecoinimg, (55,55))
+openimg = py.image.load('dooropen.png')
+openimg = py.transform.scale(openimg, (60,60))
 breakimg = py.image.load('breakblank.png')
 breakimg = py.transform.scale(breakimg, (55,55))
 player1 = Player(5, 5, img)
-player2 = Player(5, 5, hidecoinimg)
+# player2 = Player(5, 5, hidecoinimg)
 exitimg = py.image.load('door.png')
 exitimg = py.transform.scale(exitimg, (60,60))
+key = py.image.load('key.jpg.pdf.jfif.jpeg.webp.heif')
+key = py.transform.scale(key,(55,55))
 obstacleList = []
 for r in range(grid_r):
     for c in range(grid_c):
@@ -61,7 +79,7 @@ for r in range(grid_r):
 
 py.init()
 screen = py.display.set_mode((width + panel, height))
-py.display.set_caption("Creating Grid")
+py.display.set_caption("game")
 clock = py.time.Clock()
 
 def draw_grid(grid:list):
@@ -77,8 +95,12 @@ def draw_grid(grid:list):
             screen.blit(coinimg, (col*cell_size, row*cell_size))
         elif grid[row][col] == 12:
             screen.blit(exitimg, (col*cell_size, row*cell_size))
-        # elif grid[row][col] == 6:
-        #     screen.blit(hideobimg,(col*cell_size, row*cell_size))
+        elif grid[row][col] == 13:
+            screen.blit(openimg, (col*cell_size, row*cell_size))
+        elif grid[row][col] == 6:
+             screen.blit(obimg,(col*cell_size, row*cell_size))
+        elif grid[row][col] == 14:
+             screen.blit(key,(col*cell_size, row*cell_size))
             #py.draw.rect(screen, "#000000", (row*cell_size, col*cell_size, cell_size, cell_size))
         col += 1 #then go to the next cell
         if col == grid_c:   #if you reach the last column
@@ -92,21 +114,29 @@ def draw_panel(screen, coins):
     textSurface = font.render(f" : {player1.coins}", True, "#ffffff")
     screen.blit(textSurface, (width + 19, 38))
     screen.blit(coinTextimg,(width + 7, 32))
+    textKey = font.render(f"keys: {player1.key}", True, "#ffffff")
+    screen.blit(textKey, (width + 19, 60))
+    
 
 def open():
     if event.type == py.KEYDOWN:
-        if event.key == py.K_SPACE:
-            if(grid[player1.y//60][player1.x//60] == 6):
-                randint(7,9)
-                if (randint(7,8) == 7):
-                    player1.coins += 1
-                    grid[player1.y//60][player1.x//60] = 11
+        if event.key == py.K_e:
+            # if player1.coins == counter:
+                if player1.key == keycount:
+                    if (grid[player1.y//60][player1.x//60] == 12):
+                        grid[player1.y//60][player1.x//60] = 13
+
 
                 
 def pickup():
     if (grid[player1.y//60][player1.x//60] == 3):
         player1.coins += 1
         grid[player1.y//60][player1.x//60] = 11
+        
+def keypickup():
+    if (grid[player1.y//60][player1.x//60] == 14):
+        player1.key += 1
+        grid[player1.y//60][player1.x//60] = 15
 
                 
 
@@ -120,16 +150,16 @@ while run:
         if event.type == py.QUIT:
             run = False
         player1.move(screen, grid, event)
-        
+        keypickup()
         pickup()
-        # shake()
+        open()
     screen.blit(bgimg, (0,0))
     draw_panel(screen, coins)
     
     '''
     how to draw on the screen using our grid?
     '''
-    player2.movebad(screen, grid)
+    #player2.movebad(screen, grid)
     draw_grid(grid)
     player1.draw(screen)
     # player2.draw(screen)

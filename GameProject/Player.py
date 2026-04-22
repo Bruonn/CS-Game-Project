@@ -17,6 +17,7 @@ class Player:
         self.h = 50
         self.img = img
         self.coins = 0
+        self.key = 0
         self.rect = (self.x, self.y, self.w, self.h)
 
     def draw(self, screen):
