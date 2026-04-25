@@ -194,3 +194,6 @@ while run:
 
 py.quit()
 #make the game a rhythm game  
+#level 2 "endless hallway" but you leave via finding a door if you go down
+#level 3 "dig in sand" to find the exit
+#level 4 "invisible" level 1
