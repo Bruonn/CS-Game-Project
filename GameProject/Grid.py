@@ -5,7 +5,10 @@ py.mixer.init()
 dig_sound = py.mixer.Sound('Grass_dig1.ogg')
 #to generalise our grid we use the followins variables
 grid_r, grid_c, = 9, 9
-grid = [[randint(0,6) for i in range(grid_c)]for j in range(grid_r)]
+grid = [[randint(0,6) for i in range(grid_c)]for j in range(grid_r)]\
+
+grid2_r, grid2_c, = 9, 9
+grid2 = [[randint(15,21) for i in range(grid_c)]for j in range(grid_r)]\
 #print(grid)
 
 #ensure starting area is always open
@@ -76,6 +79,10 @@ for r in range(grid_r):
         if grid[r][c] == 0 or grid[r][c] == 2:
             obstacleList.append(Obstacle(c*cell_size, r*cell_size, obimg))
 # [Obstacle(r, c) if grid [r][c] for i in range(grid_r*grid_c)]
+for t in range(grid2_r):
+    for v in range(grid2_c):
+        if grid2[r][c] == 0 or grid2[r][c] == 2:
+            obstacleList.append(Obstacle(c*cell_size, r*cell_size, obimg))
 
 py.init()
 screen = py.display.set_mode((width + panel, height))
@@ -126,6 +133,14 @@ def open():
                     if (grid[player1.y//60][player1.x//60] == 12):
                         grid[player1.y//60][player1.x//60] = 13
 
+def gothrough():
+    if grid[0][4] == 13:
+        if event.type == py.KEYDOWN:
+            if event.key == py.K_e:
+                for h in grid2:
+                    print(h)
+            
+
 
                 
 def pickup():
@@ -153,6 +168,7 @@ while run:
         keypickup()
         pickup()
         open()
+        gothrough()
     screen.blit(bgimg, (0,0))
     draw_panel(screen, coins)
     
@@ -163,6 +179,9 @@ while run:
     draw_grid(grid)
     player1.draw(screen)
     # player2.draw(screen)
+
+    if gothrough() == True:
+        draw_grid(grid2)
     
     
     #r.center = (player1.x, player1.y)
