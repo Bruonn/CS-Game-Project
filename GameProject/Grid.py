@@ -3,12 +3,17 @@ import pygame as py
 from Player import Player, Obstacle
 py.mixer.init()
 dig_sound = py.mixer.Sound('Grass_dig1.ogg')
+keycollect = py.mixer.Sound('key-get.mp3')
+dooropen = py.mixer.Sound('key-twist-in-lock.mp3')
+
 #to generalise our grid we use the followins variables
 grid_r, grid_c, = 9, 9
 grid = [[randint(0,6) for i in range(grid_c)]for j in range(grid_r)]\
 
 grid2_r, grid2_c, = 9, 9
-grid2 = [[randint(15,21) for i in range(grid_c)]for j in range(grid_r)]\
+grid2 = [[randint(0,1) for i in range(grid2_c)]for j in range(grid2_r)]\
+
+grid2 == False
 #print(grid)
 
 #ensure starting area is always open
@@ -29,7 +34,6 @@ if not then change the value otherwise restart the loop
 
 for g in grid:
     print(g)
-
 
 counter = 0
 for i in grid:
@@ -73,6 +77,7 @@ exitimg = py.image.load('door.png')
 exitimg = py.transform.scale(exitimg, (60,60))
 key = py.image.load('key.jpg.pdf.jfif.jpeg.webp.heif')
 key = py.transform.scale(key,(55,55))
+
 obstacleList = []
 for r in range(grid_r):
     for c in range(grid_c):
@@ -128,10 +133,10 @@ def draw_panel(screen, coins):
 def open():
     if event.type == py.KEYDOWN:
         if event.key == py.K_e:
-            # if player1.coins == counter:
                 if player1.key == keycount:
                     if (grid[player1.y//60][player1.x//60] == 12):
                         grid[player1.y//60][player1.x//60] = 13
+                        dooropen.play()
 
 def gothrough():
     if grid[0][4] == 13:
@@ -139,6 +144,7 @@ def gothrough():
             if event.key == py.K_e:
                 for h in grid2:
                     print(h)
+                    grid2 == True
             
 
 
@@ -152,6 +158,7 @@ def keypickup():
     if (grid[player1.y//60][player1.x//60] == 14):
         player1.key += 1
         grid[player1.y//60][player1.x//60] = 15
+        keycollect.play()
 
                 
 
@@ -169,21 +176,17 @@ while run:
         pickup()
         open()
         gothrough()
+        draw_panel(screen, coins)
     screen.blit(bgimg, (0,0))
-    draw_panel(screen, coins)
+   
     
     '''
     how to draw on the screen using our grid?
     '''
     #player2.movebad(screen, grid)
-    draw_grid(grid)
+    draw_grid(grid)    
     player1.draw(screen)
     # player2.draw(screen)
-
-    if gothrough() == True:
-        draw_grid(grid2)
-    
-    
     #r.center = (player1.x, player1.y)
     #screen.blit(img,p)
     
