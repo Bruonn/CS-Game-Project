@@ -1,5 +1,7 @@
 import pygame as py
 from dataclasses import dataclass
+py.mixer.init()
+footstep1 = py.mixer.Sound('footstep1.mp3')
 
 class Player:
     '''
@@ -32,12 +34,16 @@ class Player:
         #keys = py.key.get_pressed() #this wil create a dictionary called keys
             if event.key == py.K_a and c - 1 >= 0 and grid[r][c-1] != 0 and grid[r][c-1] !=2:
                 self.x -= 60
+                footstep1.play()
             if event.key == py.K_d and c + 1 < len(grid[0]) and grid[r][c+1] != 0 and grid[r][c+1] !=2:
                 self.x += 60
+                footstep1.play()
             if event.key == py.K_w and r - 1 >= 0 and grid[r-1][c] != 0 and grid[r-1][c] !=2:
                 self.y -= 60
+                footstep1.play()
             if event.key == py.K_s and r + 1 < len(grid) and grid[r+1][c] != 0 and grid[r+1][c] !=2:
                 self.y += 60
+                footstep1.play()
             # if(grid[self.y//60][self.x//60] == 3):
             #     self.coins += 1
             #     grid[self.y//60][self.x//60] = 2137 #change value after collect coin so no coin farming
