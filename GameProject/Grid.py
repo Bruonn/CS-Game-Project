@@ -5,16 +5,18 @@ py.mixer.init()
 dig_sound = py.mixer.Sound('Grass_dig1.ogg')
 #to generalise our grid we use the followins variables
 grid_r, grid_c, = 9, 9
-grid = [[randint(0,6) for i in range(grid_c)]for j in range(grid_r)]
+grid1 = [[randint(0,6) for i in range(grid_c)]for j in range(grid_r)]
+
+grid2 = [[randint(7,8) for i in range(grid_c)]for j in range(grid_r)]
 #print(grid)
 
 #ensure starting area is always open
-grid[0][0] = 1
-grid[1][0] = 1 #right neighbour
-grid[0][1] = 1 #bottom neighbour
-grid[0][4] = 12
-grid[1][4] = 1
-grid[7][2] = 14
+grid1[0][0] = 1
+grid1[1][0] = 1 #right neighbour
+grid1[0][1] = 1 #bottom neighbour
+grid1[0][4] = 12
+grid1[1][4] = 1
+grid1[7][2] = 14
 '''
 create a loop which runs exactly n times
 go through each row randomly pick run another loop 3 times
@@ -24,18 +26,21 @@ if not then change the value otherwise restart the loop
 
 '''
 
-for g in grid:
+for g in grid1:
     print(g)
+
+for h in grid2:
+    print(h)
 
 
 counter = 0
-for i in grid:
+for i in grid1:
     for j in i:
         if j == 3:
             counter += 1
 
 keycount = 0
-for t in grid:
+for t in grid1:
     for n in t:
         if n == 14:
             keycount += 1
@@ -55,6 +60,8 @@ obimg = py.image.load('backwall.jfif')
 obimg = py.transform.scale(obimg, (60,60))
 bgimg = py.image.load('carpet-yellow.jpg')
 bgimg = py.transform.scale(bgimg, (width, height))
+bgimg2 = py.image.load('grass.jpg')
+bgimg2 = py.transform.scale(bgimg2, (width, height))
 img = py.image.load('unoriginal4.jpg')
 img = py.transform.scale(img, (50,50))
 coinimg = py.image.load('notZeldaRupee.png')
@@ -73,7 +80,7 @@ key = py.transform.scale(key,(55,55))
 obstacleList = []
 for r in range(grid_r):
     for c in range(grid_c):
-        if grid[r][c] == 0 or grid[r][c] == 2:
+        if grid1[r][c] == 0 or grid1[r][c] == 2:
             obstacleList.append(Obstacle(c*cell_size, r*cell_size, obimg))
 # [Obstacle(r, c) if grid [r][c] for i in range(grid_r*grid_c)]
 
@@ -118,25 +125,28 @@ def draw_panel(screen, coins):
     screen.blit(textKey, (width + 19, 60))
     
 
+based = False
 def open():
     if event.type == py.KEYDOWN:
-        if event.key == py.K_e:
+            if event.key == py.K_e:
             # if player1.coins == counter:
                 if player1.key == keycount:
-                    if (grid[player1.y//60][player1.x//60] == 12):
-                        grid[player1.y//60][player1.x//60] = 13
-
+                    if (grid1[player1.y//60][player1.x//60] == 12):
+                        grid1[player1.y//60][player1.x//60] = 13
+                        print("testing open")
+                        return True
+    return False
 
                 
 def pickup():
-    if (grid[player1.y//60][player1.x//60] == 3):
+    if (grid1[player1.y//60][player1.x//60] == 3):
         player1.coins += 1
-        grid[player1.y//60][player1.x//60] = 11
+        grid1[player1.y//60][player1.x//60] = 11
         
 def keypickup():
-    if (grid[player1.y//60][player1.x//60] == 14):
+    if (grid1[player1.y//60][player1.x//60] == 14):
         player1.key += 1
-        grid[player1.y//60][player1.x//60] = 15
+        grid1[player1.y//60][player1.x//60] = 15
 
                 
 
@@ -144,23 +154,39 @@ def keypickup():
 # r= img.get_rect()
 
 run = True
-while run:
+while run:           
+    if based == False:
+        grid = grid1
+        background = bgimg
+    elif based == True:
+        print("Testing")
+        grid = grid2
+        background = bgimg2
+
     clock.tick(10)
     for event in py.event.get():
         if event.type == py.QUIT:
             run = False
+        if event.type == py.KEYDOWN:
+            if event.key == py.K_r:
+                run = False
         player1.move(screen, grid, event)
         keypickup()
         pickup()
-        open()
-    screen.blit(bgimg, (0,0))
+        if based == False:
+            based = open()
+        print(based)
+    screen.blit(background, (0,0))
     draw_panel(screen, coins)
-    
+    draw_grid(grid)
+
+
+
     '''
     how to draw on the screen using our grid?
     '''
     #player2.movebad(screen, grid)
-    draw_grid(grid)
+    
     player1.draw(screen)
     # player2.draw(screen)
     
