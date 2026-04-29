@@ -7,7 +7,7 @@ dig_sound = py.mixer.Sound('Grass_dig1.ogg')
 grid_r, grid_c, = 9, 9
 grid1 = [[randint(0,6) for i in range(grid_c)]for j in range(grid_r)]
 
-grid2 = [[randint(7,8) for i in range(grid_c)]for j in range(grid_r)]
+grid2 = [[randint(20,26) for i in range(grid_c)]for j in range(grid_r)]
 #print(grid)
 
 #ensure starting area is always open
@@ -17,6 +17,11 @@ grid1[0][1] = 1 #bottom neighbour
 grid1[0][4] = 12
 grid1[1][4] = 1
 grid1[7][2] = 14
+grid2[4][4] = 9
+grid2[randint(0,8)][randint(0,8)] = 10
+grid2[randint(0,8)][randint(0,8)] = 10
+grid2[randint(0,8)][randint(0,8)] = 10
+grid2[randint(0,8)][randint(0,8)] = 10
 '''
 create a loop which runs exactly n times
 go through each row randomly pick run another loop 3 times
@@ -33,11 +38,11 @@ for h in grid2:
     print(h)
 
 
-counter = 0
-for i in grid1:
+notecount = 0
+for i in grid2:
     for j in i:
-        if j == 3:
-            counter += 1
+        if j == 10:
+            notecount += 1
 
 keycount = 0
 for t in grid1:
@@ -53,9 +58,15 @@ cell_size = 60 #cell size in which the player will reside
 width, height = cell_size * grid_c, cell_size * grid_r
 panel = 150
 coins = 0
+notes = 0
+code = 0
 key = 0
-hideobimg = py.image.load('goldenTree.png')
-hideobimg = py.transform.scale(hideobimg, (60,60))
+hole = py.image.load('hole.jpg')
+hole = py.transform.scale(hole, (60,60))
+noteimg = py.image.load('noteplaceholder.jfif')
+noteimg = py.transform.scale(noteimg, (60,60))
+lockimg = py.image.load('lockplaceholder.jfif')
+lockimg = py.transform.scale(lockimg, (60,60))
 obimg = py.image.load('backwall.jfif')
 obimg = py.transform.scale(obimg, (60,60))
 bgimg = py.image.load('carpet-yellow.jpg')
@@ -108,6 +119,12 @@ def draw_grid(grid:list):
              screen.blit(obimg,(col*cell_size, row*cell_size))
         elif grid[row][col] == 14:
              screen.blit(key,(col*cell_size, row*cell_size))
+        elif grid[row][col] == 9:
+             screen.blit(lockimg,(col*cell_size, row*cell_size))
+        elif grid[row][col] == 10:
+             screen.blit(noteimg,(col*cell_size, row*cell_size))
+        elif grid[row][col] == 2137:
+             screen.blit(hole,(col*cell_size, row*cell_size))
             #py.draw.rect(screen, "#000000", (row*cell_size, col*cell_size, cell_size, cell_size))
         col += 1 #then go to the next cell
         if col == grid_c:   #if you reach the last column
@@ -115,15 +132,30 @@ def draw_grid(grid:list):
             col = 0 #and we reset the column to zero
         
 
-def draw_panel(screen, coins):
+def draw_panel(screen, info, extra):
     font = py.font.SysFont(None, 30)
     py.draw.rect(screen, "#000000", (width, 0, panel, height))
     textSurface = font.render(f" : {player1.coins}", True, "#ffffff")
     screen.blit(textSurface, (width + 19, 38))
     screen.blit(coinTextimg,(width + 7, 32))
-    textKey = font.render(f"keys: {player1.key}", True, "#ffffff")
-    screen.blit(textKey, (width + 19, 60))
-    
+    if grid == grid1:
+        textKey = font.render(f"keys: {player1.key}", True, "#ffffff")
+        screen.blit(textKey, (width + 19, 60))
+    elif grid == grid2:
+        textSurface = font.render(f"notes : {player1.notes}", True, "#ffffff")
+        screen.blit(textSurface, (width + 19, 60))
+    if player1.notes == 1:
+        textCode1 = font.render(f"code : {player1.code1}", True, "#ffffff")
+        screen.blit(textCode1, (width + 19, 80))    
+    if player1.notes == 2:
+        textCode2 = font.render(f"code : {player1.code1}{player1.code2}", True, "#ffffff")
+        screen.blit(textCode2, (width + 19, 80))
+    if player1.notes == 3:
+        textCode3 = font.render(f"code : {player1.code1}{player1.code2}{player1.code3}", True, "#ffffff")
+        screen.blit(textCode3, (width + 19, 80))    
+    if player1.notes == 4:
+        textCode4 = font.render(f"code : {player1.code1}{player1.code2}{player1.code3}{player1.code4}", True, "#ffffff")
+        screen.blit(textCode4, (width + 19, 80))    
 
 based = False
 def open():
@@ -137,11 +169,22 @@ def open():
                         return True
     return False
 
+def input():
+    if event.type == py.KEYDOWN:
+        if event.key == py.K_e:
+            if player1.notes == notecount:
+                if (grid1[player1.y//60][player1.x//60] == 9):
+                    grid1[player1.y//60][player1.x//60] = 2137
                 
 def pickup():
     if (grid1[player1.y//60][player1.x//60] == 3):
         player1.coins += 1
         grid1[player1.y//60][player1.x//60] = 11
+
+def noteget():
+    if (grid2[player1.y//60][player1.x//60] == 10):
+        player1.notes += 1
+        grid2[player1.y//60][player1.x//60] = 16
         
 def keypickup():
     if (grid1[player1.y//60][player1.x//60] == 14):
@@ -158,10 +201,16 @@ while run:
     if based == False:
         grid = grid1
         background = bgimg
+        info = coins
+        extra = 0
+        funk = pickup()
     elif based == True:
         print("Testing")
         grid = grid2
         background = bgimg2
+        info = notes
+        extra = code
+        funk = noteget()
 
     clock.tick(10)
     for event in py.event.get():
@@ -172,12 +221,13 @@ while run:
                 run = False
         player1.move(screen, grid, event)
         keypickup()
-        pickup()
+        funk
         if based == False:
             based = open()
+        input()
         print(based)
     screen.blit(background, (0,0))
-    draw_panel(screen, coins)
+    draw_panel(screen, info, extra)
     draw_grid(grid)
 
 
