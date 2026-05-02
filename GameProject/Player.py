@@ -19,11 +19,12 @@ class Player:
         self.h = 50
         self.img = img
         self.coins = 0
-        self.notes = 0
-        self.code1 = 2
-        self.code2 = 1
-        self.code3 = 3
-        self.code4 = 7
+        self.cash = 0
+        # self.code1 = 2
+        # self.code2 = 1
+        # self.code3 = 3
+        # self.code4 = 7
+        # self.code = 2137
         self.key = 0
         self.rect = (self.x, self.y, self.w, self.h)
 

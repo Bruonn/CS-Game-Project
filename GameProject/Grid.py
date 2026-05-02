@@ -38,11 +38,11 @@ for h in grid2:
     print(h)
 
 
-notecount = 0
+cashcount = 0
 for i in grid2:
     for j in i:
         if j == 10:
-            notecount += 1
+            cashcount += 1
 
 keycount = 0
 for t in grid1:
@@ -63,8 +63,8 @@ code = 0
 key = 0
 hole = py.image.load('hole.jpg')
 hole = py.transform.scale(hole, (60,60))
-noteimg = py.image.load('noteplaceholder.jfif')
-noteimg = py.transform.scale(noteimg, (60,60))
+cash = py.image.load('taco.png')
+cash = py.transform.scale(cash, (60,60))
 lockimg = py.image.load('lockplaceholder.jfif')
 lockimg = py.transform.scale(lockimg, (60,60))
 obimg = py.image.load('backwall.jfif')
@@ -122,9 +122,7 @@ def draw_grid(grid:list):
         elif grid[row][col] == 9:
              screen.blit(lockimg,(col*cell_size, row*cell_size))
         elif grid[row][col] == 10:
-             screen.blit(noteimg,(col*cell_size, row*cell_size))
-        elif grid[row][col] == 2137:
-             screen.blit(hole,(col*cell_size, row*cell_size))
+            screen.blit(cash,(col*cell_size, row*cell_size))
             #py.draw.rect(screen, "#000000", (row*cell_size, col*cell_size, cell_size, cell_size))
         col += 1 #then go to the next cell
         if col == grid_c:   #if you reach the last column
@@ -132,7 +130,7 @@ def draw_grid(grid:list):
             col = 0 #and we reset the column to zero
         
 
-def draw_panel(screen, info, extra):
+def draw_panel(screen, info):
     font = py.font.SysFont(None, 30)
     py.draw.rect(screen, "#000000", (width, 0, panel, height))
     textSurface = font.render(f" : {player1.coins}", True, "#ffffff")
@@ -144,18 +142,18 @@ def draw_panel(screen, info, extra):
     elif grid == grid2:
         textSurface = font.render(f"notes : {player1.notes}", True, "#ffffff")
         screen.blit(textSurface, (width + 19, 60))
-    if player1.notes == 1:
-        textCode1 = font.render(f"code : {player1.code1}", True, "#ffffff")
-        screen.blit(textCode1, (width + 19, 80))    
-    if player1.notes == 2:
-        textCode2 = font.render(f"code : {player1.code1}{player1.code2}", True, "#ffffff")
-        screen.blit(textCode2, (width + 19, 80))
-    if player1.notes == 3:
-        textCode3 = font.render(f"code : {player1.code1}{player1.code2}{player1.code3}", True, "#ffffff")
-        screen.blit(textCode3, (width + 19, 80))    
-    if player1.notes == 4:
-        textCode4 = font.render(f"code : {player1.code1}{player1.code2}{player1.code3}{player1.code4}", True, "#ffffff")
-        screen.blit(textCode4, (width + 19, 80))    
+    # if player1.notes == 1:
+    #     textCode1 = font.render(f"code : {player1.code1}", True, "#ffffff")
+    #     screen.blit(textCode1, (width + 19, 80))    
+    # if player1.notes == 2:
+    #     textCode2 = font.render(f"code : {player1.code1}{player1.code2}", True, "#ffffff")
+    #     screen.blit(textCode2, (width + 19, 80))
+    # if player1.notes == 3:
+    #     textCode3 = font.render(f"code : {player1.code1}{player1.code2}{player1.code3}", True, "#ffffff")
+    #     screen.blit(textCode3, (width + 19, 80))    
+    # if player1.notes == 4:
+    #     textCode4 = font.render(f"code : {player1.code1}{player1.code2}{player1.code3}{player1.code4}", True, "#ffffff")
+    #     screen.blit(textCode4, (width + 19, 80))    
 
 based = False
 def open():
@@ -168,20 +166,13 @@ def open():
                         print("testing open")
                         return True
     return False
-
-def input():
-    if event.type == py.KEYDOWN:
-        if event.key == py.K_e:
-            if player1.notes == notecount:
-                if (grid1[player1.y//60][player1.x//60] == 9):
-                    grid1[player1.y//60][player1.x//60] = 2137
                 
 def pickup():
     if (grid1[player1.y//60][player1.x//60] == 3):
         player1.coins += 1
         grid1[player1.y//60][player1.x//60] = 11
 
-def noteget():
+def cashget():
     if (grid2[player1.y//60][player1.x//60] == 10):
         player1.notes += 1
         grid2[player1.y//60][player1.x//60] = 16
@@ -191,7 +182,17 @@ def keypickup():
         player1.key += 1
         grid1[player1.y//60][player1.x//60] = 15
 
-                
+# three = False
+# def vending():
+#     if event.type == py.KEYDOWN:
+#         if event.key == py.K_e:
+#             if player1.cash == cashcount:
+#                 if (grid1[player1.y//60][player1.x//60] == 9):
+#                     if cashcount == 3:
+#                         grid1[player1.y//60][player1.x//60] = 17
+#                         return True
+#     return False
+
 
 
 # r= img.get_rect()
@@ -202,15 +203,13 @@ while run:
         grid = grid1
         background = bgimg
         info = coins
-        extra = 0
         funk = pickup()
     elif based == True:
         print("Testing")
         grid = grid2
         background = bgimg2
         info = notes
-        extra = code
-        funk = noteget()
+        funk = cashget()
 
     clock.tick(10)
     for event in py.event.get():
@@ -219,7 +218,7 @@ while run:
         if event.type == py.KEYDOWN:
             if event.key == py.K_r:
                 run = False
-        player1.move(screen, grid, event)
+        player1.move(screen, grid)
         keypickup()
         funk
         if based == False:
@@ -227,7 +226,7 @@ while run:
         input()
         print(based)
     screen.blit(background, (0,0))
-    draw_panel(screen, info, extra)
+    draw_panel(screen, info)
     draw_grid(grid)
 
 
