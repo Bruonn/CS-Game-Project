@@ -25,6 +25,10 @@ class Player:
         self.code3 = 3
         self.code4 = 7
         self.code = 2137
+        self.code_input = ""
+        self.code_attempts = 0
+        self.code_locked = False
+        self.code_correct = False
         self.key = 0
         self.rect = (self.x, self.y, self.w, self.h)
 

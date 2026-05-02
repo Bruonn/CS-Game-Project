@@ -9,6 +9,7 @@ grid1 = [[randint(0,6) for i in range(grid_c)]for j in range(grid_r)]
 
 grid2 = [[randint(20,26) for i in range(grid_c)]for j in range(grid_r)]
 #print(grid)
+grid3 = [[randint(30,31) for i in range(grid_c)]for j in range(grid_r)]
 
 #ensure starting area is always open
 grid1[0][0] = 1
@@ -37,6 +38,8 @@ for g in grid1:
 for h in grid2:
     print(h)
 
+for k in grid3:
+    print(k)
 
 notecount = 0
 for i in grid2:
@@ -62,6 +65,8 @@ notes = 0
 key = 0
 hole = py.image.load('hole.jpg')
 hole = py.transform.scale(hole, (60,60))
+bgimg3 = py.image.load('concrete.jpeg')
+bgimg3= py.transform.scale(bgimg3, (width, height))
 cash = py.image.load('taco.png')
 cash = py.transform.scale(cash, (60,60))
 lockimg = py.image.load('lockplaceholder.jfif')
@@ -93,7 +98,6 @@ for r in range(grid_r):
         if grid1[r][c] == 0 or grid1[r][c] == 2:
             obstacleList.append(Obstacle(c*cell_size, r*cell_size, obimg))
 # [Obstacle(r, c) if grid [r][c] for i in range(grid_r*grid_c)]
-
 py.init()
 screen = py.display.set_mode((width + panel, height))
 py.display.set_caption("game")
@@ -164,17 +168,17 @@ def open():
                         print("testing open")
                         return True
     return False
-                
+
+further = False
 def input():
     if event.type == py.KEYDOWN:
         if event.key == py.K_e:
             if player1.notes == notecount:
-                if (grid1[player1.y//60][player1.x//60] == 9):
-                    correct_code = "2137"
-                    entered_code = f"{player1.code1}{player1.code2}{player1.code3}{player1.code4}"
-                    if entered_code == correct_code:
-                        grid2[player1.y//60][player1.x//60] = 12
-
+                if (grid2[player1.y//60][player1.x//60] == 9):
+                        grid2[player1.y//60][player1.x//60] = 18
+                        print("testing input")
+                        return True
+    return False
 
 
 def pickup():
@@ -196,19 +200,23 @@ def keypickup():
 # r= img.get_rect()
 
 run = True
-while run:           
-    if based == False:
-        grid = grid1
-        background = bgimg
+while run:
+    if further == False:
+        if based == False:
+            grid = grid1
+            background = bgimg
+            info = coins
+            funk = pickup()
+        elif based == True:
+            print("Testing")
+            grid = grid2
+            background = bgimg2
+            info = cash
+            funk = noteget()
+    if further == True:
+        grid = grid3
+        background = bgimg3
         info = coins
-        funk = pickup()
-    elif based == True:
-        print("Testing")
-        grid = grid2
-        background = bgimg2
-        info = cash
-        funk = noteget()
-
     clock.tick(10)
     for event in py.event.get():
         if event.type == py.QUIT:
@@ -221,7 +229,8 @@ while run:
         funk
         if based == False:
             based = open()
-        input()
+        if further == False:
+            further = input()
         print(based)
     screen.blit(background, (0,0))
     draw_panel(screen, info)
