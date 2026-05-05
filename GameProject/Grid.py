@@ -18,11 +18,12 @@ grid1[0][1] = 1 #bottom neighbour
 grid1[0][4] = 12
 grid1[1][4] = 1
 grid1[7][2] = 14
-grid2[4][4] = 9
+grid2[8][4] = 9
 grid2[randint(0,8)][randint(0,8)] = 10
 grid2[randint(0,8)][randint(0,8)] = 10
 grid2[randint(0,8)][randint(0,8)] = 10
 grid2[randint(0,8)][randint(0,8)] = 10
+grid3[0][4] = 32
 '''
 create a loop which runs exactly n times
 go through each row randomly pick run another loop 3 times
@@ -65,6 +66,8 @@ notes = 0
 key = 0
 hole = py.image.load('hole.jpg')
 hole = py.transform.scale(hole, (60,60))
+funkymonkey = py.image.load('Funkykong.webp')
+funkymonkey = py.transform.scale(funkymonkey, (60,60))
 bgimg3 = py.image.load('concrete.jpeg')
 bgimg3= py.transform.scale(bgimg3, (width, height))
 cash = py.image.load('taco.png')
@@ -87,7 +90,7 @@ openimg = py.transform.scale(openimg, (60,60))
 breakimg = py.image.load('breakblank.png')
 breakimg = py.transform.scale(breakimg, (55,55))
 player1 = Player(5, 5, img)
-# player2 = Player(5, 5, hidecoinimg)
+funkykongList = [Player(j*cell_size, j*cell_size, funkymonkey) for j in range(0, grid_c - 1)]
 exitimg = py.image.load('door.png')
 exitimg = py.transform.scale(exitimg, (60,60))
 key = py.image.load('key.jpg.pdf.jfif.jpeg.webp.heif')
@@ -116,6 +119,8 @@ def draw_grid(grid:list):
             screen.blit(coinimg, (col*cell_size, row*cell_size))
         elif grid[row][col] == 12:
             screen.blit(exitimg, (col*cell_size, row*cell_size))
+        elif grid[row][col] == 32:
+            screen.blit(exitimg, (col*cell_size, row*cell_size))
         elif grid[row][col] == 13:
             screen.blit(openimg, (col*cell_size, row*cell_size))
         elif grid[row][col] == 6:
@@ -133,7 +138,7 @@ def draw_grid(grid:list):
             col = 0 #and we reset the column to zero
         
 
-def draw_panel(screen, info,):
+def draw_panel(screen, info):
     font = py.font.SysFont(None, 30)
     py.draw.rect(screen, "#000000", (width, 0, panel, height))
     textSurface = font.render(f" : {player1.coins}", True, "#ffffff")
@@ -145,18 +150,18 @@ def draw_panel(screen, info,):
     elif grid == grid2:
         textSurface = font.render(f"notes : {player1.notes}", True, "#ffffff")
         screen.blit(textSurface, (width + 19, 60))
-    if player1.notes == 1:
-        textCode1 = font.render(f"code : {player1.code1}", True, "#ffffff")
-        screen.blit(textCode1, (width + 19, 80))    
-    if player1.notes == 2:
-        textCode2 = font.render(f"code : {player1.code1}{player1.code2}", True, "#ffffff")
-        screen.blit(textCode2, (width + 19, 80))
-    if player1.notes == 3:
-        textCode3 = font.render(f"code : {player1.code1}{player1.code2}{player1.code3}", True, "#ffffff")
-        screen.blit(textCode3, (width + 19, 80))    
-    if player1.notes == 4:
-        textCode4 = font.render(f"code : {player1.code1}{player1.code2}{player1.code3}{player1.code4}", True, "#ffffff")
-        screen.blit(textCode4, (width + 19, 80))
+        if player1.notes == 1:
+            textCode1 = font.render(f"code : {player1.code1}", True, "#ffffff")
+            screen.blit(textCode1, (width + 19, 80))    
+        if player1.notes == 2:
+            textCode2 = font.render(f"code : {player1.code1}{player1.code2}", True, "#ffffff")
+            screen.blit(textCode2, (width + 19, 80))
+        if player1.notes == 3:
+            textCode3 = font.render(f"code : {player1.code1}{player1.code2}{player1.code3}", True, "#ffffff")
+            screen.blit(textCode3, (width + 19, 80))    
+        if player1.notes == 4:
+            textCode4 = font.render(f"code : {player1.code1}{player1.code2}{player1.code3}{player1.code4}", True, "#ffffff")
+            screen.blit(textCode4, (width + 19, 80))
 based = False
 def open():
     if event.type == py.KEYDOWN:
@@ -207,16 +212,25 @@ while run:
             background = bgimg
             info = coins
             funk = pickup()
+            funkykong = 0
+            
+
         elif based == True:
             print("Testing")
             grid = grid2
             background = bgimg2
             info = cash
             funk = noteget()
+            funkykong = 0
+            
+
     if further == True:
         grid = grid3
         background = bgimg3
         info = coins
+        for k in funkykongList:
+            k.movebad(screen, grid3)
+    
     clock.tick(10)
     for event in py.event.get():
         if event.type == py.QUIT:
@@ -227,6 +241,8 @@ while run:
         player1.move(screen, grid, event)
         keypickup()
         funk
+        funkykong
+        
         if based == False:
             based = open()
         if further == False:
@@ -244,8 +260,10 @@ while run:
     #player2.movebad(screen, grid)
     
     player1.draw(screen)
-    # player2.draw(screen)
-    
+    if further:
+        for k in funkykongList:
+            k.draw(screen)
+        
     
     #r.center = (player1.x, player1.y)
     #screen.blit(img,p)
