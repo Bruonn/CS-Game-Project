@@ -32,7 +32,8 @@ class Player:
         self.code_correct = False
         self.key = 0
         self.rect = (self.x, self.y, self.w, self.h)
-        self.speedX = randint(1,10)
+        self.speedX = randint(-10,10)
+        self.speedY = randint(-10,10)
 
     def draw(self, screen):
         #blit draws surface on a surface. here image surface is drawn on the screen
@@ -77,6 +78,11 @@ class Player:
         if self.x > 480 or self.x < 0:
             self.speedX = - self.speedX
             
+    def movebad2electricboogalooremastered4keditionwithSHREK(self, screen, grid):
+        self.y += self.speedY
+        if self.y > 480 or self.y < 0:
+            self.speedY = - self.speedY
+
     def collision(self, obstacle):
         if abs(self.x - obstacle.x) < self.w:
             if abs(self.y - obstacle.y) < self.y:

@@ -201,8 +201,14 @@ def keypickup():
         player1.key += 1
         grid1[player1.y//60][player1.x//60] = 15
 
-
+def check_enemy_collision():
+    for enemy in funkykongList:
+        if (abs(player1.x - enemy.x) < 60 and abs(player1.y - enemy.y) < 60):
+            player1.x = 4*60
+            player1.y = 8*60
+            print("system")
 # r= img.get_rect()
+
 
 run = True
 while run:
@@ -230,6 +236,8 @@ while run:
         info = coins
         for k in funkykongList:
             k.movebad(screen, grid3)
+            k.movebad2electricboogalooremastered4keditionwithSHREK(screen, grid3)
+        check_enemy_collision()
     
     clock.tick(10)
     for event in py.event.get():
