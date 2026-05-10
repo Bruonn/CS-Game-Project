@@ -21,11 +21,11 @@ grid1[4][8] = 12
 grid1[4][7] = 1
 grid1[7][2] = 14
 grid2[8][4] = 9
-grid2[randint(0,8)][randint(0,8)] = 10
-grid2[randint(0,8)][randint(0,8)] = 10
-grid2[randint(0,8)][randint(0,8)] = 10
-grid2[randint(0,8)][randint(0,8)] = 10
-grid3[0][4] = 32
+grid2[randint(0,7)][randint(0,8)] = 10
+grid2[randint(0,7)][randint(0,8)] = 10
+grid2[randint(0,7)][randint(0,8)] = 10
+grid2[randint(0,7)][randint(0,8)] = 10
+grid3[0][4] = 12
 grid3[randint(1,7)][randint(0,8)] = 14
 grid4[4][4] = 42
 '''
@@ -53,7 +53,7 @@ for i in grid2:
             notecount += 1
 
 keycount = 0
-for t in grid1:
+for t in grid1 and grid3:
     for n in t:
         if n == 14:
             keycount += 1
@@ -210,7 +210,7 @@ def last_levelgo():
     if event.type == py.KEYDOWN:
             if event.key == py.K_e:
                 if player1.key == keycount:
-                    if (grid3[player1.y//60][player1.x//60] == 32):
+                    if (grid3[player1.y//60][player1.x//60] == 12):
                         grid3[player1.y//60][player1.x//60] = 13
                         print("please just work")
                         return True
@@ -260,20 +260,21 @@ def check_enemy_collision():
 run = True
 while run:
     if idk == False:
+
         if further == False:
+
             if based == False:
                 grid = grid1
                 background = bgimg
                 info = coins
                 funk = pickup()
                 funkykong = 0
-
+#----------------------------------------------------
             elif based == True:
                 print("Testing")
                 grid = grid2
                 background = bgimg2
                 info = cash
-                
                 funk= noteget()
                 funkykong = 0
 
