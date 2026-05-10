@@ -105,3 +105,4 @@ class Obstacle:
 
     def draw(self, screen):
         screen.blit(self.img,(self.x, self.y))
+

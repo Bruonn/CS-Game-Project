@@ -11,12 +11,14 @@ grid2 = [[randint(20,21) for i in range(grid_c)]for j in range(grid_r)]
 #print(grid)
 grid3 = [[randint(30,31) for i in range(grid_c)]for j in range(grid_r)]
 
+grid4 = [[randint(40,46) for i in range(grid_c)]for j in range(grid_r)]
+grid5 = [[randint(50,51) for i in range(grid_c)]for j in range(grid_r)]
 #ensure starting area is always open
 grid1[0][0] = 1
 grid1[1][0] = 1 #right neighbour
 grid1[0][1] = 1 #bottom neighbour
-grid1[0][4] = 12
-grid1[1][4] = 1
+grid1[4][8] = 12
+grid1[4][7] = 1
 grid1[7][2] = 14
 grid2[8][4] = 9
 grid2[randint(0,8)][randint(0,8)] = 10
@@ -24,6 +26,8 @@ grid2[randint(0,8)][randint(0,8)] = 10
 grid2[randint(0,8)][randint(0,8)] = 10
 grid2[randint(0,8)][randint(0,8)] = 10
 grid3[0][4] = 32
+grid3[randint(1,7)][randint(0,8)] = 14
+grid4[4][4] = 42
 '''
 create a loop which runs exactly n times
 go through each row randomly pick run another loop 3 times
@@ -70,6 +74,10 @@ funkymonkey = py.image.load('Funkykong.webp')
 funkymonkey = py.transform.scale(funkymonkey, (60,60))
 bgimg3 = py.image.load('concrete.jpeg')
 bgimg3= py.transform.scale(bgimg3, (width, height))
+bgimg4 = py.image.load('sand.jpg')
+bgimg4= py.transform.scale(bgimg4, (width, height))
+thanksforbeingmyteacher = py.image.load('Untitled.png')
+thanksforbeingmyteacher = py.transform.scale(thanksforbeingmyteacher, (width, height))
 cash = py.image.load('taco.png')
 cash = py.transform.scale(cash, (60,60))
 lockimg = py.image.load('lockplaceholder.jfif')
@@ -131,6 +139,8 @@ def draw_grid(grid:list):
              screen.blit(lockimg,(col*cell_size, row*cell_size))
         elif grid[row][col] == 10:
             screen.blit(cash,(col*cell_size, row*cell_size))
+        elif grid[row][col] == 45 or grid[row][col] == 46 or grid[row][col] == 44:
+            screen.blit(exitimg, (col*cell_size, row*cell_size))
             #py.draw.rect(screen, "#000000", (row*cell_size, col*cell_size, cell_size, cell_size))
         col += 1 #then go to the next cell
         if col == grid_c:   #if you reach the last column
@@ -144,7 +154,7 @@ def draw_panel(screen, info):
     textSurface = font.render(f" : {player1.coins}", True, "#ffffff")
     screen.blit(textSurface, (width + 19, 38))
     screen.blit(coinTextimg,(width + 7, 32))
-    if grid == grid1:
+    if grid == grid1 or grid == grid3:
         textKey = font.render(f"keys: {player1.key}", True, "#ffffff")
         screen.blit(textKey, (width + 19, 60))
     elif grid == grid2:
@@ -189,6 +199,33 @@ def input():
                         return True
     return False
 
+lastlevel = False
+def last_levelgo():
+    # if event.type == py.KEYDOWN:
+    #     if event.key == py.K_e:
+    #         if (grid3[player1.y//60][player1.x//60] == 32):
+    #             grid3[player1.y//60][player1.x//60] = 13
+    #             return True
+    # return False
+    if event.type == py.KEYDOWN:
+            if event.key == py.K_e:
+                if player1.key == keycount:
+                    if (grid3[player1.y//60][player1.x//60] == 32):
+                        grid3[player1.y//60][player1.x//60] = 13
+                        print("please just work")
+                        return True
+    return False
+
+idk = False
+def leave():
+    if event.type == py.KEYDOWN:
+        if event.key == py.K_e:
+            if (grid3[player1.y//60][player1.x//60] == 42):
+                grid3[player1.y//60][player1.x//60] = 63
+                return True
+    return False
+
+
 
 def pickup():
     if (grid1[player1.y//60][player1.x//60] == 3):
@@ -205,6 +242,12 @@ def keypickup():
         player1.key += 1
         grid1[player1.y//60][player1.x//60] = 15
 
+def keypickup2():
+    if (grid3[player1.y//60][player1.x//60] == 14):
+        player1.key += 1
+        grid3[player1.y//60][player1.x//60] = 15
+
+
 def check_enemy_collision():
     for enemy in funkykongList:
         if (abs(player1.x - enemy.x) < 60 and abs(player1.y - enemy.y) < 60):
@@ -216,35 +259,42 @@ def check_enemy_collision():
 
 run = True
 while run:
-    if further == False:
-        if based == False:
-            grid = grid1
-            background = bgimg
+    if idk == False:
+        if further == False:
+            if based == False:
+                grid = grid1
+                background = bgimg
+                info = coins
+                funk = pickup()
+                funkykong = 0
+
+            elif based == True:
+                print("Testing")
+                grid = grid2
+                background = bgimg2
+                info = cash
+                
+                funk= noteget()
+                funkykong = 0
+
+        elif further == True:
+            grid = grid3
+            background = bgimg3
             info = coins
-            funk = pickup()
-            funkykong = 0
+            funk = keypickup2()
+            for k in funkykongList:
+                k.movebad(screen, grid3)
+                k.movebad2electricboogalooremastered4keditionwithSHREK(screen, grid3)
+            check_enemy_collision()
 
-        elif based == True:
-            print("Testing")
-            grid = grid2
-            background = bgimg2
-            info = cash
-            
-            funk= noteget()
-            funkykong = 0
-            
-            
-
-    if further == True:
-        grid = grid3
+    elif idk == True:
+        grid = grid4
         background = bgimg3
-        info = coins
         funk = 0
-        for k in funkykongList:
-            k.movebad(screen, grid3)
-            k.movebad2electricboogalooremastered4keditionwithSHREK(screen, grid3)
-        check_enemy_collision()
-    
+        funkykong = 0
+        info = 0
+
+
     clock.tick(10)
     for event in py.event.get():
         if event.type == py.QUIT:
@@ -261,6 +311,10 @@ while run:
             based = open()
         if further == False:
             further = input()
+        if lastlevel == False:
+            lastlevel = last_levelgo()
+        if idk == False:
+            idk = leave()
         print(based)
     screen.blit(background, (0,0))
     draw_panel(screen, info)
