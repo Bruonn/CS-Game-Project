@@ -26,10 +26,6 @@ class Player:
         self.code3 = 3
         self.code4 = 7
         self.code = 2137
-        self.code_input = ""
-        self.code_attempts = 0
-        self.code_locked = False
-        self.code_correct = False
         self.key = 0
         self.rect = (self.x, self.y, self.w, self.h)
         self.speedX = randint(-10,10)
@@ -63,17 +59,6 @@ class Player:
             self.rect = (self.x, self.y, self.w, self.h)
 
     def movebad(self, screen, grid):
-        # r = self.y//60
-        # c = self.x//60
-        # if c - 1 >= 0:# and grid[r][c-1] != 0 and grid[r][c-1] !=2:
-        #     self.x -= 60
-        # if c + 1 < len(grid[0]) and grid[r][c+1] != 0 and grid[r][c+1] !=2:
-        #     self.x += 60
-        # if r - 1 >= 0 and grid[r-1][c] != 0 and grid[r-1][c] !=2:
-        #     self.y -= 60
-        # if r + 1 < len(grid) and grid[r+1][c] != 0 and grid[r+1][c] !=2:
-        #         self.y += 60
-        # self.rect = (self.x, self.y, self.w, self.h)
         self.x += self.speedX
         if self.x > 480 or self.x < 0:
             self.speedX = - self.speedX
