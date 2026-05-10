@@ -7,7 +7,7 @@ dig_sound = py.mixer.Sound('Grass_dig1.ogg')
 grid_r, grid_c, = 9, 9
 grid1 = [[randint(0,6) for i in range(grid_c)]for j in range(grid_r)]
 
-grid2 = [[randint(20,26) for i in range(grid_c)]for j in range(grid_r)]
+grid2 = [[randint(20,21) for i in range(grid_c)]for j in range(grid_r)]
 #print(grid)
 grid3 = [[randint(30,31) for i in range(grid_c)]for j in range(grid_r)]
 
@@ -148,6 +148,10 @@ def draw_panel(screen, info):
         textKey = font.render(f"keys: {player1.key}", True, "#ffffff")
         screen.blit(textKey, (width + 19, 60))
     elif grid == grid2:
+        textSurface = font.render(f"take a rest", True, "#ffffff")
+        screen.blit(textSurface, (width + 19, 150))
+        textSurface = font.render(f":)", True, "#ffffff")
+        screen.blit(textSurface, (width + 19, 180))
         textSurface = font.render(f"notes : {player1.notes}", True, "#ffffff")
         screen.blit(textSurface, (width + 19, 60))
         if player1.notes == 1:
@@ -190,11 +194,11 @@ def pickup():
     if (grid1[player1.y//60][player1.x//60] == 3):
         player1.coins += 1
         grid1[player1.y//60][player1.x//60] = 11
-
+      
 def noteget():
     if (grid2[player1.y//60][player1.x//60] == 10):
         player1.notes += 1
-        grid2[player1.y//60][player1.x//60] = 16
+        grid2[player1.y//60][player1.x//60] = 16  
         
 def keypickup():
     if (grid1[player1.y//60][player1.x//60] == 14):
@@ -219,21 +223,23 @@ while run:
             info = coins
             funk = pickup()
             funkykong = 0
-            
 
         elif based == True:
             print("Testing")
             grid = grid2
             background = bgimg2
             info = cash
-            funk = noteget()
+            
+            funk= noteget()
             funkykong = 0
+            
             
 
     if further == True:
         grid = grid3
         background = bgimg3
         info = coins
+        funk = 0
         for k in funkykongList:
             k.movebad(screen, grid3)
             k.movebad2electricboogalooremastered4keditionwithSHREK(screen, grid3)
