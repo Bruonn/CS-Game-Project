@@ -8,8 +8,9 @@ keypickup_sound = py.mixer.Sound('key-get.mp3')
 keyopen_sound = py.mixer.Sound('key-twist-in-lock.mp3')
 dooropen_sound = py.mixer.Sound('dooropen.wav')
 drinksound = py.mixer.Sound('drinksound.mp3')
-
 #background sounds
+
+
 
 
 
@@ -20,10 +21,11 @@ grid_r, grid_c, = 9, 9
 grid1 = [[randint(0,6) for i in range(grid_c)]for j in range(grid_r)]
 
 grid2 = [[randint(20,21) for i in range(grid_c)]for j in range(grid_r)]
-#print(grid)
+
 grid3 = [[randint(30,31) for i in range(grid_c)]for j in range(grid_r)]
 
 grid4 = [[randint(40,41) for i in range(grid_c)]for j in range(grid_r)]
+
 grid5 = [[randint(50,51) for i in range(grid_c)]for j in range(grid_r)]
 #ensure starting area is always open
 grid1[0][0] = 1
@@ -212,7 +214,7 @@ def draw_panel(screen, info):
     elif grid == grid4:
         textSurface = font.render(f"the exit is", True, "#ffffff")
         screen.blit(textSurface, (width + 19, 150))
-        textSurface = font.render(f"not what it seems", True, "#ffffff")
+        textSurface = font.render(f"not what it", True, "#ffffff")
         screen.blit(textSurface, (width + 19, 180))
         textSurface = font.render(f"seems", True, "#ffffff")
         screen.blit(textSurface, (width + 19, 210))
@@ -371,6 +373,7 @@ while run:
 
     clock.tick(10)
     for event in py.event.get():
+
         if event.type == py.QUIT:
             run = False
         if event.type == py.KEYDOWN:
