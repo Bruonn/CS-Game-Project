@@ -10,8 +10,13 @@ dooropen_sound = py.mixer.Sound('dooropen.wav')
 drinksound = py.mixer.Sound('drinksound.mp3')
 #background sounds
 
-
-
+n = int(input("[1] mclovin [2] gabagool [3] happy"))
+if n == 1:
+    img = py.image.load('unoriginal4.jpg')
+    img = py.transform.scale(img, (50,50))
+elif n == 2:
+    img = py.image.load('gabagool.jfif')
+    img = py.transform.scale(img, (50,50))
 
 
 
@@ -28,6 +33,7 @@ grid4 = [[randint(40,41) for i in range(grid_c)]for j in range(grid_r)]
 
 grid5 = [[randint(50,51) for i in range(grid_c)]for j in range(grid_r)]
 #ensure starting area is always open
+
 grid1[0][0] = 1
 grid1[1][0] = 1 #right neighbour
 grid1[0][1] = 1 #bottom neighbour
@@ -49,7 +55,6 @@ check if the index generated doesnt already contain the vaue that you want
 if not then change the value otherwise restart the loop
 
 '''
-
 for g in grid1:
     print(g)
 
@@ -90,6 +95,9 @@ panel = 150
 coins = 0
 notes = 0
 key = 0
+screenmain = py.display.set_mode((width, height))
+backgroundmain = py.image.load('backwall.jfif')
+backgroundmain = py.transform.scale(backgroundmain, (width, height))
 hole = py.image.load('hole.jpg')
 hole = py.transform.scale(hole, (60,60))
 funkymonkey = py.image.load('smiler.png')
@@ -110,8 +118,7 @@ bgimg = py.image.load('carpet-yellow.jpg')
 bgimg = py.transform.scale(bgimg, (width, height))
 bgimg2 = py.image.load('grass.jpg')
 bgimg2 = py.transform.scale(bgimg2, (width, height))
-img = py.image.load('unoriginal4.jpg')
-img = py.transform.scale(img, (50,50))
+
 coinimg = py.image.load('notZeldaRupee.png')
 coinTextimg = py.transform.scale(coinimg, (30,30))
 coinimg = py.transform.scale(coinimg, (55,55))
@@ -135,10 +142,12 @@ for r in range(grid_r):
         if grid1[r][c] == 0 or grid1[r][c] == 2:
             obstacleList.append(Obstacle(c*cell_size, r*cell_size, obimg))
 # [Obstacle(r, c) if grid [r][c] for i in range(grid_r*grid_c)]
+
 py.init()
 screen = py.display.set_mode((width + panel, height))
 py.display.set_caption("game")
 clock = py.time.Clock()
+
 
 def draw_grid(grid:list):
     row = 0 #row of grid
@@ -149,6 +158,7 @@ def draw_grid(grid:list):
             #if yes then draw the obstacle
             obstacleList[index].draw(screen)
             index += 1
+        #the gorgeous wall of elif statements
         elif grid[row][col] == 3:
             screen.blit(coinimg, (col*cell_size, row*cell_size))
         elif grid[row][col] == 12:
@@ -219,7 +229,6 @@ def draw_panel(screen, info):
         textSurface = font.render(f"seems", True, "#ffffff")
         screen.blit(textSurface, (width + 19, 210))
 
-
 based = False
 def open():
     if event.type == py.KEYDOWN:
@@ -255,7 +264,6 @@ def last_levelgo():
                 return True
     return False
 
-
 idk = False
 def leave():
     if event.type == py.KEYDOWN:
@@ -265,8 +273,6 @@ def leave():
                 dooropen_sound.play()
                 return True
     return False
-
-
 
 def pickup():
     if (grid1[player1.y//60][player1.x//60] == 3):
@@ -287,7 +293,7 @@ def keypickup():
 def shovelpickup():
     if (grid4[player1.y//60][player1.x//60] == 39):
         player1.shovel = 1
-        grid4[player1.y//60][player1.x//60] = 40
+        grid4[player1.y//60][player1.x//60] = randint(40,41)
 
 def pickup():
     if (grid1[player1.y//60][player1.x//60] == 3):
@@ -299,10 +305,10 @@ def dig():
         if event.key == py.K_e:
             if player1.shovel == 1:
                 if (grid4[player1.y//60][player1.x//60] == 40) or (grid4[player1.y//60][player1.x//60] == 41):
-                    if randint(1,10) == 1:
-                        grid4[player1.y//60][player1.x//60] = 42
-                    elif randint(1,10) == 2:
+                    if randint(1,10) == 2:
                         grid4[player1.y//60][player1.x//60] = 43
+                    else:
+                        grid4[player1.y//60][player1.x//60] = 42
                     dig_sound.play()
 
 
@@ -317,6 +323,7 @@ def check_enemy_collision():
 
 # r= img.get_rect()
 
+py.init()
 
 run = True
 while run:
@@ -332,6 +339,7 @@ while run:
                     funkykong = 0
                     bgmusic = mixer.music.load('humbuzz.mp3')
     #----------------------------------------------------
+                    
                 elif based == True:
                     print("Testing")
                     grid = grid2
