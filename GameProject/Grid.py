@@ -8,9 +8,19 @@ keypickup_sound = py.mixer.Sound('key-get.mp3')
 keyopen_sound = py.mixer.Sound('key-twist-in-lock.mp3')
 dooropen_sound = py.mixer.Sound('dooropen.wav')
 drinksound = py.mixer.Sound('drinksound.mp3')
-
 #background sounds
+<<<<<<< HEAD
 mixer.music.load('humbuzz.wav')
+=======
+
+n = int(input("[1] mclovin [2] gabagool [3] happy"))
+if n == 1:
+    img = py.image.load('unoriginal4.jpg')
+    img = py.transform.scale(img, (50,50))
+elif n == 2:
+    img = py.image.load('gabagool.jfif')
+    img = py.transform.scale(img, (50,50))
+>>>>>>> 3fe1b98ca2254829b04a375f774688c134696307
 
 
 
@@ -21,12 +31,14 @@ menugrid = [[randint(66,67) for i in range(grid_c)]for j in range(grid_r)]
 grid1 = [[randint(0,6) for i in range(grid_c)]for j in range(grid_r)]
 
 grid2 = [[randint(20,21) for i in range(grid_c)]for j in range(grid_r)]
-#print(grid)
+
 grid3 = [[randint(30,31) for i in range(grid_c)]for j in range(grid_r)]
 
 grid4 = [[randint(40,41) for i in range(grid_c)]for j in range(grid_r)]
+
 grid5 = [[randint(50,51) for i in range(grid_c)]for j in range(grid_r)]
 #ensure starting area is always open
+
 grid1[0][0] = 1
 grid1[1][0] = 1 #right neighbour
 grid1[0][1] = 1 #bottom neighbour
@@ -51,9 +63,12 @@ check if the index generated doesnt already contain the vaue that you want
 if not then change the value otherwise restart the loop
 
 '''
+<<<<<<< HEAD
 for m in menugrid:
     print(m)
 
+=======
+>>>>>>> 3fe1b98ca2254829b04a375f774688c134696307
 for g in grid1:
     print(g)
 
@@ -94,6 +109,9 @@ panel = 150
 coins = 0
 notes = 0
 key = 0
+screenmain = py.display.set_mode((width, height))
+backgroundmain = py.image.load('backwall.jfif')
+backgroundmain = py.transform.scale(backgroundmain, (width, height))
 hole = py.image.load('hole.jpg')
 hole = py.transform.scale(hole, (60,60))
 funkymonkey = py.image.load('smiler.png')
@@ -114,8 +132,7 @@ bgimg = py.image.load('carpet-yellow.jpg')
 bgimg = py.transform.scale(bgimg, (width, height))
 bgimg2 = py.image.load('grass.jpg')
 bgimg2 = py.transform.scale(bgimg2, (width, height))
-img = py.image.load('unoriginal4.jpg')
-img = py.transform.scale(img, (50,50))
+
 coinimg = py.image.load('notZeldaRupee.png')
 coinTextimg = py.transform.scale(coinimg, (30,30))
 coinimg = py.transform.scale(coinimg, (55,55))
@@ -139,10 +156,12 @@ for r in range(grid_r):
         if grid1[r][c] == 0 or grid1[r][c] == 2:
             obstacleList.append(Obstacle(c*cell_size, r*cell_size, obimg))
 # [Obstacle(r, c) if grid [r][c] for i in range(grid_r*grid_c)]
+
 py.init()
 screen = py.display.set_mode((width + panel, height))
 py.display.set_caption("game")
 clock = py.time.Clock()
+
 
 def draw_grid(grid:list):
     row = 0 #row of grid
@@ -153,6 +172,7 @@ def draw_grid(grid:list):
             #if yes then draw the obstacle
             obstacleList[index].draw(screen)
             index += 1
+        #the gorgeous wall of elif statements
         elif grid[row][col] == 3:
             screen.blit(coinimg, (col*cell_size, row*cell_size))
         elif grid[row][col] == 12:
@@ -216,7 +236,16 @@ def draw_panel(screen, info):
         # if player1.notes == 4:
         #     textCode4 = font.render(f"code : {player1.code1}{player1.code2}{player1.code3}{player1.code4}", True, "#ffffff")
         #     screen.blit(textCode4, (width + 19, 80))
-
+<<<<<<< HEAD
+=======
+    elif grid == grid4:
+        textSurface = font.render(f"the exit is", True, "#ffffff")
+        screen.blit(textSurface, (width + 19, 150))
+        textSurface = font.render(f"not what it", True, "#ffffff")
+        screen.blit(textSurface, (width + 19, 180))
+        textSurface = font.render(f"seems", True, "#ffffff")
+        screen.blit(textSurface, (width + 19, 210))
+>>>>>>> 3fe1b98ca2254829b04a375f774688c134696307
 
 based = False
 def open():
@@ -253,6 +282,7 @@ def last_levelgo():
                 return True
     return False
 
+<<<<<<< HEAD
 tung = False
 def menuchoose():
     if event.type == py.KEYDOWN:
@@ -263,6 +293,8 @@ def menuchoose():
                 return True
     return False
 
+=======
+>>>>>>> 3fe1b98ca2254829b04a375f774688c134696307
 idk = False
 def leave():
     if event.type == py.KEYDOWN:
@@ -272,8 +304,6 @@ def leave():
                 dooropen_sound.play()
                 return True
     return False
-
-
 
 def pickup():
     if (grid1[player1.y//60][player1.x//60] == 3):
@@ -294,7 +324,7 @@ def keypickup():
 def shovelpickup():
     if (grid4[player1.y//60][player1.x//60] == 39):
         player1.shovel = 1
-        grid4[player1.y//60][player1.x//60] = 40
+        grid4[player1.y//60][player1.x//60] = randint(40,41)
 
 def pickup():
     if (grid1[player1.y//60][player1.x//60] == 3):
@@ -324,6 +354,7 @@ def check_enemy_collision():
 
 # r= img.get_rect()
 
+py.init()
 
 run = True
 while run:
@@ -349,6 +380,7 @@ while run:
                         # elif tung == True:
                             
 
+<<<<<<< HEAD
                     elif based == True:
                         print("Testing")
                         grid = grid2
@@ -358,6 +390,25 @@ while run:
                         funkykong = 0
                         bgmusic = 0
                 
+=======
+                if based == False:
+                    grid = grid1
+                    background = bgimg
+                    info = coins
+                    funk = pickup()
+                    funkykong = 0
+                    bgmusic = mixer.music.load('humbuzz.mp3')
+    #----------------------------------------------------
+                    
+                elif based == True:
+                    print("Testing")
+                    grid = grid2
+                    background = bgimg2
+                    info = cash
+                    funk= noteget()
+                    funkykong = 0
+                    bgmusic = 0
+>>>>>>> 3fe1b98ca2254829b04a375f774688c134696307
 
             elif further == True:
                 grid = grid3
@@ -391,6 +442,7 @@ while run:
 
     clock.tick(10)
     for event in py.event.get():
+
         if event.type == py.QUIT:
             run = False
         if event.type == py.KEYDOWN:
