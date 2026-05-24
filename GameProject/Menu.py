@@ -1,3 +1,11 @@
+"""
+
+NOT USED IN GAME!!!
+
+"""
+
+
+
 import pygame as py
 from pygame import mixer
 import sys
