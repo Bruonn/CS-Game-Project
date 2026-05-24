@@ -9,18 +9,7 @@ keyopen_sound = py.mixer.Sound('key-twist-in-lock.mp3')
 dooropen_sound = py.mixer.Sound('dooropen.wav')
 drinksound = py.mixer.Sound('drinksound.mp3')
 #background sounds
-<<<<<<< HEAD
 mixer.music.load('humbuzz.wav')
-=======
-
-n = int(input("[1] mclovin [2] gabagool [3] happy"))
-if n == 1:
-    img = py.image.load('unoriginal4.jpg')
-    img = py.transform.scale(img, (50,50))
-elif n == 2:
-    img = py.image.load('gabagool.jfif')
-    img = py.transform.scale(img, (50,50))
->>>>>>> 3fe1b98ca2254829b04a375f774688c134696307
 
 
 
@@ -63,12 +52,9 @@ check if the index generated doesnt already contain the vaue that you want
 if not then change the value otherwise restart the loop
 
 '''
-<<<<<<< HEAD
 for m in menugrid:
     print(m)
 
-=======
->>>>>>> 3fe1b98ca2254829b04a375f774688c134696307
 for g in grid1:
     print(g)
 
@@ -236,16 +222,6 @@ def draw_panel(screen, info):
         # if player1.notes == 4:
         #     textCode4 = font.render(f"code : {player1.code1}{player1.code2}{player1.code3}{player1.code4}", True, "#ffffff")
         #     screen.blit(textCode4, (width + 19, 80))
-<<<<<<< HEAD
-=======
-    elif grid == grid4:
-        textSurface = font.render(f"the exit is", True, "#ffffff")
-        screen.blit(textSurface, (width + 19, 150))
-        textSurface = font.render(f"not what it", True, "#ffffff")
-        screen.blit(textSurface, (width + 19, 180))
-        textSurface = font.render(f"seems", True, "#ffffff")
-        screen.blit(textSurface, (width + 19, 210))
->>>>>>> 3fe1b98ca2254829b04a375f774688c134696307
 
 based = False
 def open():
@@ -282,7 +258,6 @@ def last_levelgo():
                 return True
     return False
 
-<<<<<<< HEAD
 tung = False
 def menuchoose():
     if event.type == py.KEYDOWN:
@@ -293,8 +268,6 @@ def menuchoose():
                 return True
     return False
 
-=======
->>>>>>> 3fe1b98ca2254829b04a375f774688c134696307
 idk = False
 def leave():
     if event.type == py.KEYDOWN:
@@ -380,7 +353,6 @@ while run:
                         # elif tung == True:
                             
 
-<<<<<<< HEAD
                     elif based == True:
                         print("Testing")
                         grid = grid2
@@ -390,25 +362,6 @@ while run:
                         funkykong = 0
                         bgmusic = 0
                 
-=======
-                if based == False:
-                    grid = grid1
-                    background = bgimg
-                    info = coins
-                    funk = pickup()
-                    funkykong = 0
-                    bgmusic = mixer.music.load('humbuzz.mp3')
-    #----------------------------------------------------
-                    
-                elif based == True:
-                    print("Testing")
-                    grid = grid2
-                    background = bgimg2
-                    info = cash
-                    funk= noteget()
-                    funkykong = 0
-                    bgmusic = 0
->>>>>>> 3fe1b98ca2254829b04a375f774688c134696307
 
             elif further == True:
                 grid = grid3
