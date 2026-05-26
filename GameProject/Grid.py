@@ -2,12 +2,20 @@ from random import randint
 import pygame as py
 from Player import Player, Obstacle
 from pygame import mixer
+import webbrowser
 py.mixer.init()
 dig_sound = py.mixer.Sound('Grass_dig1.ogg')
 keypickup_sound = py.mixer.Sound('key-get.mp3')
 keyopen_sound = py.mixer.Sound('key-twist-in-lock.mp3')
 dooropen_sound = py.mixer.Sound('dooropen.wav')
 drinksound = py.mixer.Sound('drinksound.mp3')
+shovelthwack_sound = py.mixer.Sound('shovelthwack.mp3')
+ohgodwhy = py.mixer.Sound('ohgod.mp3')
+ouch = py.mixer.Sound('ouch.mp3')
+cheer = py.mixer.Sound('cheer.mp3')
+confetti = py.mixer.Sound('confetti.mp3')
+py.mixer.music.load('humbuzz.mp3')
+
 #to generalise our grid we use the followins variables
 grid_r, grid_c, = 9, 9
 menugrid = [[randint(66,67) for i in range(grid_c)]for j in range(grid_r)]
@@ -38,6 +46,7 @@ grid2[randint(0,7)][randint(0,8)] = 10
 grid2[randint(0,7)][randint(0,8)] = 10
 grid3[0][8] = 32
 grid4[4][4] = 39
+grid5[6][4] = 52
 '''
 create a loop which runs exactly n times
 go through each row randomly pick run another loop 3 times
@@ -201,6 +210,8 @@ def draw_panel(screen, info):
     elif grid == grid5:
         textKey = font.render(f"you won :)", True, "#ffffff")
         screen.blit(textKey, (width + 19, 60))
+        textsecret = font.render(f"e on 1", True, "#ffffff")
+        screen.blit(textsecret, (width + 19, 90))
     elif grid == grid2:
         textSurface = font.render(f"take a rest", True, "#ffffff")
         screen.blit(textSurface, (width + 19, 150))
@@ -256,12 +267,12 @@ def last_levelgo():
                 return True
     return False
 
-tung = False
+pleasepleaseplease = False
 def menuchoose():
     if event.type == py.KEYDOWN:
         if event.key == py.K_e:
-            if (grid3[player1.y//60][player1.x//60] == 68) or (grid3[player1.y//60][player1.x//60] == 69) or (grid3[player1.y//60][player1.x//60] == 70):
-                grid3[player1.y//60][player1.x//60] = 71
+            if (menugrid[player1.y//60][player1.x//60] == 68) or (menugrid[player1.y//60][player1.x//60] == 69) or (menugrid[player1.y//60][player1.x//60] == 70):
+                menugrid[player1.y//60][player1.x//60] = 71
                 dooropen_sound.play()
                 return True
     return False
@@ -273,9 +284,17 @@ def leave():
             if (grid4[player1.y//60][player1.x//60] == 43):
                 grid4[player1.y//60][player1.x//60] = 63
                 dooropen_sound.play()
+                py.time.delay(1000)
+                cheer.play()
+                confetti.play()
                 return True
     return False
-
+def roll():
+    if event.type == py.KEYDOWN:
+        if event.key == py.K_e:
+            if (grid5[player1.y//60][player1.x//60] == 52):
+                grid5[player1.y//60][player1.x//60] = 2137
+                webbrowser.open(r"https://www.youtube.com/watch?v=dQw4w9WgXcQ")
 def pickup():
     if (grid1[player1.y//60][player1.x//60] == 3):
         player1.coins += 1
@@ -284,6 +303,7 @@ def pickup():
 def noteget():
     if (grid2[player1.y//60][player1.x//60] == 10):
         player1.notes += 1
+        drinksound.play()
         grid2[player1.y//60][player1.x//60] = 16  
         
 def keypickup():
@@ -295,6 +315,7 @@ def keypickup():
 def shovelpickup():
     if (grid4[player1.y//60][player1.x//60] == 39):
         player1.shovel = 1
+        shovelthwack_sound.play()
         grid4[player1.y//60][player1.x//60] = randint(40,41)
 
 def pickup():
@@ -321,27 +342,39 @@ def check_enemy_collision():
             player1.x = 4*60
             player1.y = 8*60
             print("system")
+            if randint(1,1000) == 2:
+                ohgodwhy.play()
+            else:
+                ouch.play()
             
 
 # r= img.get_rect()
 
-py.init()
+
 
 run = True
 while run:
+
     if idk == False:
         if lastlevel == False:
             if further == False:
-
                 if based == False:
-                    grid = grid1
-                    background = bgimg
-                    info = coins
-                    funk = pickup()
-                    funkykong = 0
-                    bgmusic = 0
-    #----------------------------------------------------
-                    
+                    # if pleasepleaseplease == False:
+                    #     grid = menugrid
+                    #     background = bgimg
+                    #     info = coins
+                    #     funk = 0
+                    #     funkykong = 0
+                    #     bgmusic = 0
+
+                    # elif pleasepleaseplease == True:
+                        grid = grid1
+                        background = bgimg
+                        info = coins
+                        funk = pickup()
+                        funkykong = 0
+                        bgmusic = 0
+                        
                 elif based == True:
                     grid = grid2
                     background = bgimg2
@@ -370,7 +403,7 @@ while run:
             bgmusic = 0
             if grid == grid4:
                 funkykongList = [Player(j*cell_size, j*cell_size, empty) for j in range(0, grid_c - 1)]
-            
+                
     elif idk == True:
         grid = grid5
         background = thanksforbeingmyteacher
@@ -392,8 +425,9 @@ while run:
         funk
         funkykong
         dig()
-        # if tung == False:
-        #     tung = menuchoose()
+        roll()
+        # if pleasepleaseplease == False:
+        #     pleasepleaseplease = menuchoose()
         if based == False:
             based = open()
         elif further == False:
@@ -403,6 +437,15 @@ while run:
         elif idk == False:
             idk = leave()
         print(based)
+
+        if grid == grid1:
+            py.mixer.music.play(1, 0.0)
+        if grid == grid2:
+            py.mixer.music.unload()
+            py.mixer.music.load("nature.mp3")
+            py.mixer.music.play(1, 0.0)
+        if grid == grid3:
+            py.mixer.music.unload()
     screen.blit(background, (0,0))
     draw_panel(screen, info)
     draw_grid(grid)
@@ -430,3 +473,7 @@ py.quit()
 
 
 #all sounds are from pixabay but i lost the links
+#nature sound is from https://pixabay.com/sound-effects/search/nature/ by user u vr5icvkppa
+#shovelthwack sound is from https://pixabay.com/sound-effects/search/shovel/ by user freesound community
+#ohgod and ouch are from https://pixabay.com/sound-effects/search/damage/ by users kodasworldproductions and olenchic respectfully
+#cheer and confetti are from https://pixabay.com/sound-effects/search/cheer/ by users Driken5482 and u jspnqv1glx respectfully
