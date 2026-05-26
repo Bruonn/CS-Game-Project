@@ -29,8 +29,8 @@ class Player:
         self.key = 0
         self.shovel = 0
         self.rect = (self.x, self.y, self.w, self.h)
-        self.speedX = randint(-10,10)
-        self.speedY = randint(-10,10)
+        self.speedX = randint(-10,35)
+        self.speedY = randint(-10,35)
 
     def draw(self, screen):
         #blit draws surface on a surface. here image surface is drawn on the screen

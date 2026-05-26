@@ -8,24 +8,11 @@ keypickup_sound = py.mixer.Sound('key-get.mp3')
 keyopen_sound = py.mixer.Sound('key-twist-in-lock.mp3')
 dooropen_sound = py.mixer.Sound('dooropen.wav')
 drinksound = py.mixer.Sound('drinksound.mp3')
-#background sounds
-
-n = int(input("[1] mclovin [2] gabagool [3] happy"))
-if n == 1:
-    img = py.image.load('unoriginal4.jpg')
-    img = py.transform.scale(img, (50,50))
-elif n == 2:
-    img = py.image.load('gabagool.jfif')
-    img = py.transform.scale(img, (50,50))
-
-
-
-
 #to generalise our grid we use the followins variables
 grid_r, grid_c, = 9, 9
 grid1 = [[randint(0,6) for i in range(grid_c)]for j in range(grid_r)]
 
-grid2 = [[randint(20,21) for i in range(grid_c)]for j in range(grid_r)]
+grid2 = [[randint(20,24) for i in range(grid_c)]for j in range(grid_r)]
 
 grid3 = [[randint(30,31) for i in range(grid_c)]for j in range(grid_r)]
 
@@ -46,7 +33,7 @@ grid2[randint(0,7)][randint(0,8)] = 10
 grid2[randint(0,7)][randint(0,8)] = 10
 grid2[randint(0,7)][randint(0,8)] = 10
 grid3[0][8] = 32
-grid4[0][0] = 39
+grid4[4][4] = 39
 '''
 create a loop which runs exactly n times
 go through each row randomly pick run another loop 3 times
@@ -114,6 +101,8 @@ lockimg = py.image.load('exitdoor.png')
 lockimg = py.transform.scale(lockimg, (60,60))
 obimg = py.image.load('backwall.jfif')
 obimg = py.transform.scale(obimg, (60,60))
+grassob = py.image.load('grassobimg.png')
+grassob = py.transform.scale(grassob, (60,60))
 bgimg = py.image.load('carpet-yellow.jpg')
 bgimg = py.transform.scale(bgimg, (width, height))
 bgimg2 = py.image.load('grass.jpg')
@@ -126,6 +115,8 @@ openimg = py.image.load('dooropen.png')
 openimg = py.transform.scale(openimg, (60,60))
 breakimg = py.image.load('breakblank.png')
 breakimg = py.transform.scale(breakimg, (55,55))
+img = py.image.load('unoriginal4.jpg')
+img = py.transform.scale(img, (50,50))
 player1 = Player(5, 5, img)
 empty = py.image.load('empty.png')
 empty = py.transform.scale(empty, (60,60))
@@ -221,13 +212,6 @@ def draw_panel(screen, info):
         # if player1.notes == 4:
         #     textCode4 = font.render(f"code : {player1.code1}{player1.code2}{player1.code3}{player1.code4}", True, "#ffffff")
         #     screen.blit(textCode4, (width + 19, 80))
-    elif grid == grid4:
-        textSurface = font.render(f"the exit is", True, "#ffffff")
-        screen.blit(textSurface, (width + 19, 150))
-        textSurface = font.render(f"not what it", True, "#ffffff")
-        screen.blit(textSurface, (width + 19, 180))
-        textSurface = font.render(f"seems", True, "#ffffff")
-        screen.blit(textSurface, (width + 19, 210))
 
 based = False
 def open():
@@ -337,11 +321,10 @@ while run:
                     info = coins
                     funk = pickup()
                     funkykong = 0
-                    bgmusic = mixer.music.load('humbuzz.mp3')
+                    bgmusic = 0
     #----------------------------------------------------
                     
                 elif based == True:
-                    print("Testing")
                     grid = grid2
                     background = bgimg2
                     info = cash
@@ -370,7 +353,6 @@ while run:
             if grid == grid4:
                 funkykongList = [Player(j*cell_size, j*cell_size, empty) for j in range(0, grid_c - 1)]
             
-
     elif idk == True:
         grid = grid5
         background = thanksforbeingmyteacher
@@ -424,4 +406,7 @@ while run:
     py.display.flip()#update the screen
 
 py.quit()
-#make the game a rhythm game  
+#make the game a rhythm game
+
+
+#all sounds are from pixabay but i lost the links
