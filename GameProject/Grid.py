@@ -8,8 +8,18 @@ keypickup_sound = py.mixer.Sound('key-get.mp3')
 keyopen_sound = py.mixer.Sound('key-twist-in-lock.mp3')
 dooropen_sound = py.mixer.Sound('dooropen.wav')
 drinksound = py.mixer.Sound('drinksound.mp3')
+<<<<<<< HEAD
+=======
+#background sounds
+mixer.music.load('humbuzz.wav')
+
+
+
+
+>>>>>>> 986c8da7f696a4b37c5930d223b8e7e6f2a3e0d2
 #to generalise our grid we use the followins variables
 grid_r, grid_c, = 9, 9
+menugrid = [[randint(66,67) for i in range(grid_c)]for j in range(grid_r)]
 grid1 = [[randint(0,6) for i in range(grid_c)]for j in range(grid_r)]
 
 grid2 = [[randint(20,24) for i in range(grid_c)]for j in range(grid_r)]
@@ -27,6 +37,9 @@ grid1[0][1] = 1 #bottom neighbour
 grid1[4][8] = 12
 grid1[4][7] = 1
 grid1[7][2] = 14
+menugrid[7][2] = 68
+menugrid[7][4] = 69
+menugrid[7][6] = 70
 grid2[8][4] = 9
 grid2[randint(0,7)][randint(0,8)] = 10
 grid2[randint(0,7)][randint(0,8)] = 10
@@ -42,6 +55,9 @@ check if the index generated doesnt already contain the vaue that you want
 if not then change the value otherwise restart the loop
 
 '''
+for m in menugrid:
+    print(m)
+
 for g in grid1:
     print(g)
 
@@ -172,7 +188,8 @@ def draw_grid(grid:list):
             screen.blit(shovel, (col*cell_size, row*cell_size))
         elif grid[row][col] == 42:
             screen.blit(breakimg, (col*cell_size, row*cell_size))
-            #py.draw.rect(screen, "#000000", (row*cell_size, col*cell_size, cell_size, cell_size))
+        elif grid[row][col] == 68 or grid[row][col] == 69 or grid[row][col] == 70:
+            screen.blit(breakimg, (col*cell_size, row*cell_size))            #py.draw.rect(screen, "#000000", (row*cell_size, col*cell_size, cell_size, cell_size))
         col += 1 #then go to the next cell
         if col == grid_c:   #if you reach the last column
             row += 1 #then we go to the next row
@@ -248,6 +265,16 @@ def last_levelgo():
                 return True
     return False
 
+tung = False
+def menuchoose():
+    if event.type == py.KEYDOWN:
+        if event.key == py.K_e:
+            if (grid3[player1.y//60][player1.x//60] == 68) or (grid3[player1.y//60][player1.x//60] == 69) or (grid3[player1.y//60][player1.x//60] == 70):
+                grid3[player1.y//60][player1.x//60] = 71
+                dooropen_sound.play()
+                return True
+    return False
+
 idk = False
 def leave():
     if event.type == py.KEYDOWN:
@@ -314,6 +341,7 @@ while run:
     if idk == False:
         if lastlevel == False:
             if further == False:
+<<<<<<< HEAD
 
                 if based == False:
                     grid = grid1
@@ -331,6 +359,36 @@ while run:
                     funk= noteget()
                     funkykong = 0
                     bgmusic = 0
+=======
+                    if based == False:
+                        grid = grid1
+                        background = bgimg
+                        info = coins
+                        funk = pickup()
+                        funkykong = 0
+                        bgmusic = mixer.music.play(-1)
+                        # if tung == False:
+                        #     grid = menugrid
+                        #     background = bgimg
+                        #     info = 0
+                        #     funk = 0
+                        #     funkykong = 0
+                        #     bgmusic = 0
+                    
+        #----------------------------------------------------
+                        # elif tung == True:
+                            
+
+                    elif based == True:
+                        print("Testing")
+                        grid = grid2
+                        background = bgimg2
+                        info = cash
+                        funk= noteget()
+                        funkykong = 0
+                        bgmusic = 0
+                
+>>>>>>> 986c8da7f696a4b37c5930d223b8e7e6f2a3e0d2
 
             elif further == True:
                 grid = grid3
@@ -374,6 +432,8 @@ while run:
         funk
         funkykong
         dig()
+        # if tung == False:
+        #     tung = menuchoose()
         if based == False:
             based = open()
         elif further == False:
