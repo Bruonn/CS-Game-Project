@@ -8,15 +8,6 @@ keypickup_sound = py.mixer.Sound('key-get.mp3')
 keyopen_sound = py.mixer.Sound('key-twist-in-lock.mp3')
 dooropen_sound = py.mixer.Sound('dooropen.wav')
 drinksound = py.mixer.Sound('drinksound.mp3')
-<<<<<<< HEAD
-=======
-#background sounds
-mixer.music.load('humbuzz.wav')
-
-
-
-
->>>>>>> 986c8da7f696a4b37c5930d223b8e7e6f2a3e0d2
 #to generalise our grid we use the followins variables
 grid_r, grid_c, = 9, 9
 menugrid = [[randint(66,67) for i in range(grid_c)]for j in range(grid_r)]
@@ -341,7 +332,6 @@ while run:
     if idk == False:
         if lastlevel == False:
             if further == False:
-<<<<<<< HEAD
 
                 if based == False:
                     grid = grid1
@@ -359,36 +349,6 @@ while run:
                     funk= noteget()
                     funkykong = 0
                     bgmusic = 0
-=======
-                    if based == False:
-                        grid = grid1
-                        background = bgimg
-                        info = coins
-                        funk = pickup()
-                        funkykong = 0
-                        bgmusic = mixer.music.play(-1)
-                        # if tung == False:
-                        #     grid = menugrid
-                        #     background = bgimg
-                        #     info = 0
-                        #     funk = 0
-                        #     funkykong = 0
-                        #     bgmusic = 0
-                    
-        #----------------------------------------------------
-                        # elif tung == True:
-                            
-
-                    elif based == True:
-                        print("Testing")
-                        grid = grid2
-                        background = bgimg2
-                        info = cash
-                        funk= noteget()
-                        funkykong = 0
-                        bgmusic = 0
-                
->>>>>>> 986c8da7f696a4b37c5930d223b8e7e6f2a3e0d2
 
             elif further == True:
                 grid = grid3
