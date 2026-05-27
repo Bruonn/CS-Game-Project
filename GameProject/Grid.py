@@ -111,8 +111,8 @@ bgimg3 = py.image.load('concrete.jpeg')
 bgimg3= py.transform.scale(bgimg3, (width, height))
 bgimg4 = py.image.load('sand.jpg')
 bgimg4= py.transform.scale(bgimg4, (width, height))
-thanksforbeingmyteacher = py.image.load('Untitled.png')
-thanksforbeingmyteacher = py.transform.scale(thanksforbeingmyteacher, (width, height))
+win = py.image.load('Untitled.png')
+win = py.transform.scale(win, (width, height))
 cash = py.image.load('almond water.png')
 cash = py.transform.scale(cash, (60,60))
 lockimg = py.image.load('exitdoor.png')
@@ -148,7 +148,7 @@ shovel = py.transform.scale(shovel, (55,55))
 obstacleList = []
 for r in range(grid_r):
     for c in range(grid_c):
-        if grid1[r][c] == 0 or grid1[r][c] == 2:
+        if grid1[r][c] == 0:
             obstacleList.append(Obstacle(c*cell_size, r*cell_size, obimg))
 # [Obstacle(r, c) if grid [r][c] for i in range(grid_r*grid_c)]
 
@@ -163,7 +163,7 @@ def draw_grid(grid:list):
     col = 0 #column of grid
     index = 0
     for i in range(grid_r*grid_c): #looping through the entire grid
-        if grid[row][col] == 0 or grid[row][col] == 2: #check if the grid list has 1
+        if grid[row][col] == 0: #check if the grid list has 1
             #if yes then draw the obstacle
             obstacleList[index].draw(screen)
             index += 1
@@ -177,6 +177,8 @@ def draw_grid(grid:list):
         elif grid[row][col] == 13:
             screen.blit(openimg, (col*cell_size, row*cell_size))
         elif grid[row][col] == 6:
+             screen.blit(obimg,(col*cell_size, row*cell_size))
+        elif grid[row][col] == 2:
              screen.blit(obimg,(col*cell_size, row*cell_size))
         elif grid[row][col] == 14:
              screen.blit(key,(col*cell_size, row*cell_size))
@@ -202,7 +204,7 @@ def draw_panel(screen, info):
     font = py.font.SysFont(None, 30)
     py.draw.rect(screen, "#000000", (width, 0, panel, height))
     textSurface = font.render(f" : {player1.coins}", True, "#ffffff")
-    textSurface2 = font.render(f"r = reset", True, "#ffffff")
+    textSurface2 = font.render(f"r = leave", True, "#ffffff")
     screen.blit(textSurface, (width + 19, 38))
     screen.blit(textSurface2, (width + 19, 500))
     screen.blit(coinTextimg,(width + 7, 32))
@@ -408,8 +410,8 @@ while run:
                 
     elif idk == True:
         grid = grid5
-        background = thanksforbeingmyteacher
-        funk = 0
+        background = win
+        funk = roll()
         funkykong = 0
         info = 0
         bgmusic = 0
@@ -427,7 +429,7 @@ while run:
         funk
         funkykong
         dig()
-        roll()
+        
         # if pleasepleaseplease == False:
         #     pleasepleaseplease = menuchoose()
         if based == False:
