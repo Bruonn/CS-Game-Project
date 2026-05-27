@@ -3,6 +3,8 @@ import pygame as py
 from Player import Player, Obstacle
 from pygame import mixer
 py.mixer.init()
+#empty to refrsh
+
 dig_sound = py.mixer.Sound('Grass_dig1.ogg')
 keypickup_sound = py.mixer.Sound('key-get.mp3')
 keyopen_sound = py.mixer.Sound('key-twist-in-lock.mp3')
