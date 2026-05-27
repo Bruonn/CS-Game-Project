@@ -408,6 +408,7 @@ while run:
             if grid == grid4:
                 funkykongList = [Player(j*cell_size, j*cell_size, empty) for j in range(0, grid_c - 1)]
                 
+            # funkykong.d
     elif idk == True:
         grid = grid5
         background = win
